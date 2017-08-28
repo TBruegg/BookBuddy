@@ -1,0 +1,17 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+    color: #ff0000;
+}
+
+.Label {
+    color: #0000ff;
+    font: 100 bolder;
+}
+
+ImageView {
+    -fx-cursor: hand;
+    border: "1px solid #ff0000";
+}

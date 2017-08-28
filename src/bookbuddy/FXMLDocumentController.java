@@ -5,6 +5,7 @@
  */
 package bookbuddy;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -14,11 +15,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+import javafx.stage.Stage;
+
+
 /**
  *
  * @author Tobi
  */
 public class FXMLDocumentController implements Initializable {
+    
+    private WindowFactory windowBuilder;
     
     @FXML
     private TextField searchTextField;
@@ -30,6 +36,16 @@ public class FXMLDocumentController implements Initializable {
         System.out.println("You clicked me!");
         searchTextField.setText("Hello World!");
         startSearchBtn.setText("Clicked!");
+    }
+    
+    @FXML
+    private void handleAddButtonAction(ActionEvent event) throws IOException {
+        System.out.println("Add button was clicked!");
+        windowBuilder = new WindowFactory();
+        String fxmlResource = "AddBookDialog.fxml";
+        
+        Stage addBookWindow = windowBuilder.createWindow(fxmlResource);
+        addBookWindow.show();
     }
     
     @Override
