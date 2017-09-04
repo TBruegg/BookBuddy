@@ -8,13 +8,16 @@ package bookbuddy;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.sql.*;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-
+import javafx.scene.control.ListView;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 
 
@@ -25,11 +28,15 @@ import javafx.stage.Stage;
 public class FXMLDocumentController implements Initializable {
     
     private WindowFactory windowBuilder;
+    private DatabaseManager dbManager;
+    private ObservableList<String> books = FXCollections.observableArrayList(); 
     
     @FXML
     private TextField searchTextField;
     @FXML
     private Button startSearchBtn;
+    @FXML
+    private ListView bookListView;
     
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -51,7 +58,22 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
+        this.dbManager = new DatabaseManager("jdbc:sqlite:data/books.db");
+        ResultSet allBooks = this.dbManager.getAllBooks();
+
+        try {
+            if(allBooks != null) {
+                while(allBooks.next()){
+                    String title = allBooks.getString("title");
+                    this.books.add(title);
+                }
+            }
+            this.bookListView.setItems(this.books);
+            allBooks.close();
+            this.dbManager.closeConnection();
+        } catch(Exception e) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
     }    
     
 }
