@@ -16,11 +16,12 @@ import java.sql.*;
 public class DatabaseManager {
     String dbConnString;
     Statement stmt;
+    String newBookQuery = "INSERT INTO books(title, author, year, edition, publisher, description)"
+            + " VALUES (?,?,?,?,?,?)";
     Connection conn = null;
     
     public DatabaseManager(String dbConnString) {
         this.dbConnString = dbConnString;
-        conn = this.getDBConnection();
     }
     
     public Connection getDBConnection() {
@@ -41,6 +42,7 @@ public class DatabaseManager {
     
     public ResultSet getAllBooks() {
         try {
+            this.conn = this.getDBConnection();
             this.stmt = this.conn.createStatement();
             ResultSet bookResults = this.stmt.executeQuery("SELECT * FROM books;");
             return bookResults;
@@ -50,9 +52,34 @@ public class DatabaseManager {
         }
     }
     
+    public void saveBook(Book newBook){
+        PreparedStatement insertNewBook;
+        System.out.println("Saving book...");
+        try {
+          this.conn = this.getDBConnection();
+          insertNewBook = this.conn.prepareStatement(this.newBookQuery);
+          insertNewBook.setString(1, newBook.getTitle());
+          insertNewBook.setString(2, newBook.getAuthor());
+          insertNewBook.setInt(3, newBook.getYear());
+          insertNewBook.setString(4, newBook.getEdition());
+          insertNewBook.setString(5, newBook.getPublisher());
+          insertNewBook.setString(6, newBook.getDescription());
+          insertNewBook.executeUpdate();
+          this.conn.commit();
+          this.closeConnection();
+        } catch(Exception e) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+    }
+    
     public void closeConnection() throws SQLException {
-        this.stmt.close();
-        this.conn.close();
+        if(this.stmt != null){
+            this.stmt.close();
+        }
+        if(this.conn != null){
+            this.conn.close();        
+            this.conn = null;
+        }
     }
     
 }

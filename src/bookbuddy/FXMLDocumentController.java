@@ -42,7 +42,8 @@ public class FXMLDocumentController implements Initializable {
     private void handleButtonAction(ActionEvent event) {
         System.out.println("You clicked me!");
         searchTextField.setText("Hello World!");
-        startSearchBtn.setText("Clicked!");
+        this.loadBookList();
+        
     }
     
     @FXML
@@ -57,8 +58,14 @@ public class FXMLDocumentController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        this.dbManager = new DatabaseManager("jdbc:sqlite:data/books.db");
+        this.loadBookList();
+    }    
+    
+    public void loadBookList(){
+        this.books.clear();
+        if(this.dbManager == null){
+            this.dbManager = new DatabaseManager("jdbc:sqlite:data/books.db");
+        }
         ResultSet allBooks = this.dbManager.getAllBooks();
 
         try {
@@ -74,6 +81,6 @@ public class FXMLDocumentController implements Initializable {
         } catch(Exception e) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
-    }    
+    }
     
 }

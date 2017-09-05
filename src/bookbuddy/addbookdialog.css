@@ -5,13 +5,16 @@
 .mainFxmlClass {
     color: #ff0000;
 }
-
-.Label {
-    color: #0000ff;
-    font: 100 bolder;
+/*
+Label {
+    -fx-text-fill: red;
 }
-
+*/
 ImageView {
     -fx-cursor: hand;
     border: "1px solid #ff0000";
+}
+
+ButtonBar {
+    -fx-padding: 5
 }
