@@ -3,11 +3,12 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToolBar?>
@@ -80,7 +81,16 @@
             </AnchorPane>
             <AnchorPane prefHeight="465.0" prefWidth="555.0">
                <children>
-                  <ListView id="bookList" fx:id="bookListView" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <TableView fx:id="bookListView" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                      <TableColumn fx:id="titleColumn" prefWidth="75.0" text="Titel" />
+                      <TableColumn fx:id="authorColumn" prefWidth="75.0" text="Autor" />
+                        <TableColumn fx:id="yearColumn" prefWidth="75.0" text="Jahr" />
+                        <TableColumn fx:id="editionColumn" prefWidth="75.0" text="Auflage" />
+                        <TableColumn fx:id="publisherColumn" prefWidth="75.0" text="Verlag" />
+                        <TableColumn fx:id="descriptionColumn" prefWidth="75.0" text="Beschreibung" />
+                    </columns>
+                  </TableView>
                </children>
             </AnchorPane>
         </items>

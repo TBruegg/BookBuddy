@@ -5,70 +5,73 @@
  */
 package bookbuddy;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 /**
  *
  * @author Tobi
  */
 public class Book {
     
-    private String title;
-    private String author;
-    private int year;
-    private String edition;
-    private String publisher;
-    private String description;
+    private final SimpleStringProperty title;
+    private final SimpleStringProperty author;
+    private final SimpleIntegerProperty year;
+    private final SimpleStringProperty edition;
+    private final SimpleStringProperty publisher;
+    private final SimpleStringProperty description;
     
-    public Book() {
-        
-    }
+//    public Book() {
+//        
+//    }
     
     public Book(String title, String author, int year, String edition, String publisher, String description) {
-        this.title = title;
-        this.author = author;
-        this.year = year;
-        this.edition = edition;
-        this.publisher = publisher;
-        this.description = description;
+        this.title = new SimpleStringProperty(title);
+        this.author = new SimpleStringProperty(author);
+        this.year = new SimpleIntegerProperty(year);
+        this.edition = new SimpleStringProperty(edition);
+        this.publisher = new SimpleStringProperty(publisher);
+        this.description = new SimpleStringProperty(description);
     }
     
     // Setters
     public void setTitle(String title){
-        this.title = title;
+        this.title.set(title);
     }
     public void setAuthor(String author){
-        this.author = author;
+        this.author.set(author);
     }
     public void setYear(int year){
-        this.year = year;
+        this.year.set(year);
     }
     public void setEdition(String edition){
-        this.edition = edition;
+        this.edition.set(edition);
     }
     public void setPublisher(String publisher){
-        this.publisher = publisher;
+        this.publisher.set(publisher);
     }
     public void setDescription(String description){
-        this.description = description;
+        this.description.set(description);
     }
     
     // Getters
     public String getTitle() {
-        return this.title;
+        return this.title.get();
     }
     public String getAuthor() {
-        return this.author;
+        return this.author.get();
     }
     public int getYear() {
-        return this.year;
+        return this.year.get();
     }
     public String getEdition() {
-        return this.edition;
+        return this.edition.get();
     }
     public String getPublisher() {
-        return this.publisher;
+        return this.publisher.get();
     }
     public String getDescription() {
-        return this.description;
+        return this.description.get();
     }
     
 }

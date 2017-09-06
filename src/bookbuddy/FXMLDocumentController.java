@@ -15,9 +15,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 
@@ -29,14 +34,26 @@ public class FXMLDocumentController implements Initializable {
     
     private WindowFactory windowBuilder;
     private DatabaseManager dbManager;
-    private ObservableList<String> books = FXCollections.observableArrayList(); 
+    private ObservableList<Book> books = FXCollections.observableArrayList(); 
     
     @FXML
     private TextField searchTextField;
     @FXML
     private Button startSearchBtn;
     @FXML
-    private ListView bookListView;
+    private TableView bookListView;
+    @FXML
+    private TableColumn titleColumn;
+    @FXML
+    private TableColumn authorColumn;
+    @FXML
+    private TableColumn yearColumn;
+    @FXML
+    private TableColumn editionColumn;
+    @FXML
+    private TableColumn publisherColumn;
+    @FXML
+    private TableColumn descriptionColumn;
     
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -58,6 +75,17 @@ public class FXMLDocumentController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        this.initColumnFactories();
+        this.bookListView.setOnMouseClicked(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent evt){
+                if(evt.getButton().equals(MouseButton.PRIMARY)){
+                    if(evt.getClickCount() == 2){
+                        System.out.println("Item clicked");
+                    }
+                }
+            }
+        });
         this.loadBookList();
     }    
     
@@ -72,7 +100,14 @@ public class FXMLDocumentController implements Initializable {
             if(allBooks != null) {
                 while(allBooks.next()){
                     String title = allBooks.getString("title");
-                    this.books.add(title);
+                    String author = allBooks.getString("author");
+                    int year = allBooks.getInt("year");
+                    String edition = allBooks.getString("edition");
+                    String publisher = allBooks.getString("publisher");
+                    String description = allBooks.getString("description");
+                    
+                    Book currentBook = new Book(title, author, year, edition, publisher, description);
+                    this.books.add(currentBook);
                 }
             }
             this.bookListView.setItems(this.books);
@@ -81,6 +116,27 @@ public class FXMLDocumentController implements Initializable {
         } catch(Exception e) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
+    }
+    
+    public void initColumnFactories(){
+        this.titleColumn.setCellValueFactory(
+            new PropertyValueFactory<Book,String>("title")
+        );
+        this.authorColumn.setCellValueFactory(
+            new PropertyValueFactory<Book,String>("author")
+        );
+        this.yearColumn.setCellValueFactory(
+            new PropertyValueFactory<Book,String>("year")
+        );
+        this.editionColumn.setCellValueFactory(
+            new PropertyValueFactory<Book,String>("title")
+        );
+        this.publisherColumn.setCellValueFactory(
+            new PropertyValueFactory<Book,String>("publisher")
+        );
+        this.descriptionColumn.setCellValueFactory(
+            new PropertyValueFactory<Book,String>("description")
+        );
     }
     
 }
