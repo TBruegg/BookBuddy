@@ -18,6 +18,9 @@ public class DatabaseManager {
     Statement stmt;
     String newBookQuery = "INSERT INTO books(title, author, year, edition, publisher, description)"
             + " VALUES (?,?,?,?,?,?)";
+    String updateBookQuery = "UPDATE books SET title = ?, author = ?, year = ?, edition = ?, "
+            + "publisher = ?, description = ? WHERE id = ?;";
+    String getByIdQuery = "SELECT * FROM books WHERE id = ? LIMIT 1;";
     Connection conn = null;
     
     public DatabaseManager(String dbConnString) {
@@ -45,6 +48,7 @@ public class DatabaseManager {
             this.conn = this.getDBConnection();
             this.stmt = this.conn.createStatement();
             ResultSet bookResults = this.stmt.executeQuery("SELECT * FROM books;");
+            //this.closeConnection();
             return bookResults;
         } catch(Exception e) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -52,19 +56,39 @@ public class DatabaseManager {
         }
     }
     
-    public void saveBook(Book newBook){
-        PreparedStatement insertNewBook;
+    public ResultSet getBookById(int id) {
+        PreparedStatement findBook;
+        try {
+            this.conn = this.getDBConnection();
+            findBook = this.conn.prepareStatement(this.getByIdQuery);
+            findBook.setInt(1, id);
+            ResultSet bookResult = findBook.executeQuery();
+            this.conn.commit();
+            //this.closeConnection();
+            return bookResult;
+        } catch(Exception e) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            return null;
+        }
+    }
+    
+    public void saveBook(Book book){
+        PreparedStatement saveStatement;
+        String saveQuery =  book.getId() == -1 ? this.newBookQuery : this.updateBookQuery;
         System.out.println("Saving book...");
         try {
           this.conn = this.getDBConnection();
-          insertNewBook = this.conn.prepareStatement(this.newBookQuery);
-          insertNewBook.setString(1, newBook.getTitle());
-          insertNewBook.setString(2, newBook.getAuthor());
-          insertNewBook.setInt(3, newBook.getYear());
-          insertNewBook.setString(4, newBook.getEdition());
-          insertNewBook.setString(5, newBook.getPublisher());
-          insertNewBook.setString(6, newBook.getDescription());
-          insertNewBook.executeUpdate();
+          saveStatement = this.conn.prepareStatement(saveQuery);
+          saveStatement.setString(1, book.getTitle());
+          saveStatement.setString(2, book.getAuthor());
+          saveStatement.setInt(3, book.getYear());
+          saveStatement.setString(4, book.getEdition());
+          saveStatement.setString(5, book.getPublisher());
+          saveStatement.setString(6, book.getDescription());
+          if(book.getId() != -1){
+              saveStatement.setInt(7, book.getId());
+          }
+          saveStatement.executeUpdate();
           this.conn.commit();
           this.closeConnection();
         } catch(Exception e) {

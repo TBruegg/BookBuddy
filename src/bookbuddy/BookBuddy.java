@@ -7,6 +7,7 @@ package bookbuddy;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -16,6 +17,8 @@ import javafx.stage.Stage;
  * @author Tobi
  */
 public class BookBuddy extends Application {
+    
+    private static Initializable controller;
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -32,6 +35,14 @@ public class BookBuddy extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+    
+    public static void setController(Initializable controller) {
+        BookBuddy.controller = controller;
+    }
+    
+    public static Initializable getController(){
+        return BookBuddy.controller;
     }
     
 }

@@ -75,13 +75,24 @@ public class FXMLDocumentController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        BookBuddy.setController(this);
         this.initColumnFactories();
         this.bookListView.setOnMouseClicked(new EventHandler<MouseEvent>(){
             @Override
-            public void handle(MouseEvent evt){
+            public void handle(MouseEvent evt) {
                 if(evt.getButton().equals(MouseButton.PRIMARY)){
                     if(evt.getClickCount() == 2){
-                        System.out.println("Item clicked");
+                        Book selectedBook = (Book) bookListView.getSelectionModel().getSelectedItem();
+                        System.out.println("Item double-clicked");
+                        try {
+                            // TODO: Redundanter Code, siehe handleButtonAction
+                            windowBuilder = new WindowFactory();
+                            String fxmlResource = "AddBookDialog.fxml";
+                            Stage addBookWindow = windowBuilder.createWindow(fxmlResource, false, selectedBook);
+                            addBookWindow.show();
+                        } catch(IOException e){
+                            System.out.println(e.getClass().getName() + ": " + e.getMessage());
+                        }
                     }
                 }
             }
@@ -99,6 +110,7 @@ public class FXMLDocumentController implements Initializable {
         try {
             if(allBooks != null) {
                 while(allBooks.next()){
+                    int id = allBooks.getInt("id");
                     String title = allBooks.getString("title");
                     String author = allBooks.getString("author");
                     int year = allBooks.getInt("year");
@@ -106,7 +118,7 @@ public class FXMLDocumentController implements Initializable {
                     String publisher = allBooks.getString("publisher");
                     String description = allBooks.getString("description");
                     
-                    Book currentBook = new Book(title, author, year, edition, publisher, description);
+                    Book currentBook = new Book(id, title, author, year, edition, publisher, description);
                     this.books.add(currentBook);
                 }
             }

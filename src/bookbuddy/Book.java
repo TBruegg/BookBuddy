@@ -14,6 +14,7 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class Book {
     
+    private final SimpleIntegerProperty id;
     private final SimpleStringProperty title;
     private final SimpleStringProperty author;
     private final SimpleIntegerProperty year;
@@ -21,11 +22,18 @@ public class Book {
     private final SimpleStringProperty publisher;
     private final SimpleStringProperty description;
     
-//    public Book() {
-//        
-//    }
+    public Book() {
+        this.id = null;
+        this.title = null;
+        this.author = null;
+        this.year = null;
+        this.edition = null;
+        this.publisher = null;
+        this.description = null;
+    }
     
-    public Book(String title, String author, int year, String edition, String publisher, String description) {
+    public Book(int id, String title, String author, int year, String edition, String publisher, String description) {
+        this.id = new SimpleIntegerProperty(id);
         this.title = new SimpleStringProperty(title);
         this.author = new SimpleStringProperty(author);
         this.year = new SimpleIntegerProperty(year);
@@ -35,6 +43,9 @@ public class Book {
     }
     
     // Setters
+    public void setId(int id){
+        this.id.set(id);
+    }
     public void setTitle(String title){
         this.title.set(title);
     }
@@ -55,6 +66,9 @@ public class Book {
     }
     
     // Getters
+    public int getId() {
+        return this.id.get();
+    }
     public String getTitle() {
         return this.title.get();
     }

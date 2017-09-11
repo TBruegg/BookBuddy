@@ -31,6 +31,8 @@ public class AddBookDialogController implements Initializable {
     @FXML
     private Button cancelBtn;
     @FXML
+    private TextField idField;
+    @FXML
     private TextField titleField;
     @FXML
     private TextField authorField;
@@ -47,6 +49,8 @@ public class AddBookDialogController implements Initializable {
     
     private DatabaseManager dbManager;
     
+    private boolean isNewBook;
+    
     
     /**
      * Initializes the controller class.
@@ -54,6 +58,8 @@ public class AddBookDialogController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
        
+        this.isNewBook = true;
+        
         this.saveBookBtn.setOnAction( (e) -> {
             this.saveBook();
         });
@@ -71,9 +77,15 @@ public class AddBookDialogController implements Initializable {
             stage.close();
     }
     
+    public void setIsNewBook(boolean isNewBook){
+        this.isNewBook = isNewBook;
+    }
+    
     public void saveBook(){
         int year = !this.yearField.getText().isEmpty() ? Integer.parseInt(this.yearField.getText()) : 0;
-        Book newBook = new Book(
+        int id = !this.idField.getText().isEmpty() ? Integer.parseInt(this.idField.getText()) : -1;
+        Book currentBook = new Book(
+            id,
             this.titleField.getText(),
             this.authorField.getText(),
             year,
@@ -81,8 +93,18 @@ public class AddBookDialogController implements Initializable {
             this.publisherField.getText(),
             this.descriptionField.getText()
         );
-        this.dbManager.saveBook(newBook);
+        this.dbManager.saveBook(currentBook);
         this.closeWindow();
+    }
+    
+    public void loadBook(Book book){
+        this.idField.setText(Integer.toString(book.getId()));
+        this.titleField.setText(book.getTitle());
+        this.authorField.setText(book.getAuthor());
+        this.yearField.setText(Integer.toString(book.getYear()));
+        this.editionField.setText(book.getEdition());
+        this.publisherField.setText(book.getPublisher());
+        this.descriptionField.setText(book.getDescription());
     }
         
 }

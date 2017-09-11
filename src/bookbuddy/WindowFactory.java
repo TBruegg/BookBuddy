@@ -5,10 +5,12 @@
  */
 package bookbuddy;
 
+import bookbuddy.AddBookDialogController;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 /**
  *
@@ -21,15 +23,25 @@ public class WindowFactory {
     }
     
     public Stage createWindow(String resourceString) throws IOException {
-        return this.createWindow(resourceString, false);
+        return this.createWindow(resourceString, false, null);
     }
     
     public Stage createWindow(String resourceString, boolean resizable) throws IOException {
+        return this.createWindow(resourceString, resizable, null);
+    }
+    
+    public Stage createWindow(String resourceString, boolean resizable, Book book) throws IOException {
         try {
             
-            Parent root = FXMLLoader.load(getClass().getResource(resourceString));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceString));
+            Parent root = (Parent)loader.load();
             Stage newBookWindow = new Stage();
             Scene newBookScene = new Scene(root);
+            AddBookDialogController controller = (AddBookDialogController) loader.getController();
+            
+            if(book != null){                
+                controller.loadBook(book);
+            }
             
             newBookWindow.setScene(newBookScene);
             newBookWindow.setResizable(resizable);
