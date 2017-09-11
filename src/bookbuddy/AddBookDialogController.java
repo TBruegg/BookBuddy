@@ -95,6 +95,7 @@ public class AddBookDialogController implements Initializable {
         );
         this.dbManager.saveBook(currentBook);
         this.closeWindow();
+        BookBuddy.getController().loadBookList();
     }
     
     public void loadBook(Book book){

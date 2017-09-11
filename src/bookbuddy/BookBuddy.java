@@ -18,7 +18,7 @@ import javafx.stage.Stage;
  */
 public class BookBuddy extends Application {
     
-    private static Initializable controller;
+    private static FXMLDocumentController controller;
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -37,11 +37,11 @@ public class BookBuddy extends Application {
         launch(args);
     }
     
-    public static void setController(Initializable controller) {
+    public static void setController(FXMLDocumentController controller) {
         BookBuddy.controller = controller;
     }
     
-    public static Initializable getController(){
+    public static FXMLDocumentController getController(){
         return BookBuddy.controller;
     }
     
