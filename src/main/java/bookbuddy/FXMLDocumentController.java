@@ -67,7 +67,7 @@ public class FXMLDocumentController implements Initializable {
     private void handleAddButtonAction(ActionEvent event) throws IOException {
         System.out.println("Add button was clicked!");
         windowBuilder = new WindowFactory();
-        String fxmlResource = "AddBookDialog.fxml";
+        String fxmlResource = "/fxml/AddBookDialog.fxml";
         
         Stage addBookWindow = windowBuilder.createWindow(fxmlResource);
         addBookWindow.show();
@@ -87,7 +87,7 @@ public class FXMLDocumentController implements Initializable {
                         try {
                             // TODO: Redundanter Code, siehe handleButtonAction
                             windowBuilder = new WindowFactory();
-                            String fxmlResource = "AddBookDialog.fxml";
+                            String fxmlResource = "/fxml/AddBookDialog.fxml";
                             Stage addBookWindow = windowBuilder.createWindow(fxmlResource, false, selectedBook);
                             addBookWindow.show();
                         } catch(IOException e){
@@ -103,7 +103,7 @@ public class FXMLDocumentController implements Initializable {
     public void loadBookList(){
         this.books.clear();
         if(this.dbManager == null){
-            this.dbManager = new DatabaseManager("jdbc:sqlite:data/books.db");
+            this.dbManager = new DatabaseManager("jdbc:sqlite:" + System.getProperty("user.dir") + "\\src\\main\\resources\\data\\books.db");
         }
         ResultSet allBooks = this.dbManager.getAllBooks();
 
@@ -141,7 +141,7 @@ public class FXMLDocumentController implements Initializable {
             new PropertyValueFactory<Book,String>("year")
         );
         this.editionColumn.setCellValueFactory(
-            new PropertyValueFactory<Book,String>("title")
+            new PropertyValueFactory<Book,String>("edition")
         );
         this.publisherColumn.setCellValueFactory(
             new PropertyValueFactory<Book,String>("publisher")

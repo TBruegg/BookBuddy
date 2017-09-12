@@ -68,7 +68,7 @@ public class AddBookDialogController implements Initializable {
            this.closeWindow();
         });
         
-        this.dbManager = new DatabaseManager("jdbc:sqlite:data/books.db");
+        this.dbManager = new DatabaseManager("jdbc:sqlite:" + System.getProperty("user.dir") + "\\src\\main\\resources\\data\\books.db");
         
     }   
     
