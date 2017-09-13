@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bookbuddy.AddBookDialogController">
+<VBox stylesheets="@../style/addbookdialog.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bookbuddy.AddBookDialogController">
    <children>
       <TabPane minHeight="400.0" minWidth="600.0" stylesheets="@addbookdialog.css" tabMinWidth="50.0">
          <tabs>

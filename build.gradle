@@ -20,6 +20,9 @@ if (!hasProperty('mainClass')) {
 repositories {
     jcenter()
     mavenCentral()
+    maven { 
+        url 'https://jitpack.io' 
+    }
     // You may define additional repositories, or even remove "mavenCentral()".
     // Read more about repositories here:
     //   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:repositories
@@ -37,4 +40,7 @@ dependencies {
     //   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:how_to_declare_your_dependencies
     testCompile group: 'junit', name: 'junit', version: '4.10'
     implementation 'org.xerial:sqlite-jdbc:3.8.10.1'
+    implementation 'org.hibernate:hibernate-core:5.2.10.Final'
+    // compile 'net.kemitix:sqlite-dialect:0.1.0'
+    compile 'com.github.gwenn:sqlite-dialect:ad123ca'
 }
