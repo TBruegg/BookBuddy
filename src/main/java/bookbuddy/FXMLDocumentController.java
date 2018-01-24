@@ -26,6 +26,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+
 /**
  *
  * @author Tobi
@@ -97,8 +102,27 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         });
+        this.insertHibernateBook();
         this.loadBookList();
     }    
+    
+    private void insertHibernateBook(){
+        OrmBook hbnBook = new OrmBook();
+        hbnBook.setTitle("Hibernate");
+        
+        SessionFactory sf = HibernateUtil.getSessionFactory();
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sf.getCurrentSession();
+            transaction = session.beginTransaction();
+            session.save(hbnBook);
+            transaction.commit();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw(e);
+        }
+    }
     
     public void loadBookList(){
         this.books.clear();
